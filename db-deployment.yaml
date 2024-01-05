@@ -1,0 +1,25 @@
+# db-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db
+  template:
+    metadata:
+      labels:
+        app: db
+    spec:
+      containers:
+      - name: db
+        image: 185124489034.dkr.ecr.us-east-1.amazonaws.com/db:latest
+        # volumeMounts:
+        # - name: init-sql
+        #   mountPath: /docker-entrypoint-initdb.d
+  # volumes:
+  # - name: init-sql
+  #   hostPath:
+  #     path: /path/to/host/init.sql
