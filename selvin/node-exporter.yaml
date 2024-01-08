@@ -1,0 +1,58 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: node-exporter
+  namespace: monitoring
+  labels:
+    k8s-app: node-exporter
+spec:
+  selector:
+    matchLabels:
+      k8s-app: node-exporter
+  template:
+    metadata:
+      labels:
+        k8s-app: node-exporter
+    spec:
+      hostNetwork: true
+      containers:
+      - name: node-exporter
+        image: quay.io/prometheus/node-exporter
+        args:
+          - "--path.procfs=/host/proc"
+          - "--path.sysfs=/host/sys"
+        ports:
+        - name: metrics
+          containerPort: 9100
+        volumeMounts:
+        - name: proc-mount
+          mountPath: /host/proc
+          readOnly: true
+        - name: sys-mount
+          mountPath: /host/sys
+          readOnly: true
+      volumes:
+      - name: proc-mount
+        hostPath:
+          path: /proc
+      - name: sys-mount
+        hostPath:
+          path: /sys
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-exporter-service
+  namespace: monitoring
+  labels:
+    k8s-app: node-exporter
+spec:
+  selector:
+    k8s-app: node-exporter
+  ports:
+    - protocol: TCP
+      port: 9100
+      targetPort: metrics
+  type: LoadBalancer
