@@ -1,0 +1,38 @@
+name: Build and Push to ECR
+
+on:
+  push:
+    branches:
+      - cicd
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Install dependencies
+      run: npm install
+      
+    - name: Get the Git commit SHA
+      id: commit_sha
+      run: echo "::set-output name=sha::$(git rev-parse --short HEAD)"
+
+    - name: Build Docker image
+      run: docker build -t app:${{ steps.commit_sha.outputs.sha }} .
+
+    - name: Log in to Amazon ECR
+      run: aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 185124489034.dkr.ecr.us-east-1.amazonaws.com
+
+    - name: Tag Docker image
+      run: docker tag app:${{ steps.commit_sha.outputs.sha }}  185124489034.dkr.ecr.us-east-1.amazonaws.com/app:${{ steps.commit_sha.outputs.sha }}
+
+    - name: Push Docker image to ECR
+      run: docker push 185124489034.dkr.ecr.us-east-1.amazonaws.com/app:${{ steps.commit_sha.outputs.sha }}
