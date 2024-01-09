@@ -47,12 +47,12 @@ jobs:
 
     - name: Update Deployment YAML with Git commit SHA
       run: |
-        sed -i "s|image: .*|image: 185124489034.dkr.ecr.us-east-1.amazonaws.com/app:${{ steps.commit_sha.outputs.sha }}|" /manifests/web-deployment.yml
+        sed -i "s|image: .*|image: 185124489034.dkr.ecr.us-east-1.amazonaws.com/app:${{ steps.commit_sha.outputs.sha }}|" ./manifests/web-deployment.yml
 
     - name: Commit and push changes
       run: |
         git config --local user.email "selvinjethu@gmail.com"
         git config --local user.name "GitHub Action"
-        git add /manifests/web-deployment.yml
+        git add ./manifests/web-deployment.yml
         git commit -m "Update image tag in Deployment YAML"
         git push
