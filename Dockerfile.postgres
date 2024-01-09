@@ -1,0 +1,13 @@
+# Use an official PostgreSQL image as a parent image
+FROM postgres:13
+
+# Set the environmental variables
+ENV POSTGRES_USER=your_username
+ENV POSTGRES_PASSWORD=your_password
+ENV POSTGRES_DB=your_database_name
+
+# Copy the initialization script into the container
+COPY init.sql /docker-entrypoint-initdb.d/
+
+# Expose the PostgreSQL port
+EXPOSE 5432

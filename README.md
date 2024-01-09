@@ -1,1 +1,4 @@
-# eks_argocd
+# docker-nodejs
+
+
+docker-compose up --build

@@ -1,0 +1,40 @@
+<!-- index.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Form</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Contact Form</h1>
+    <form action="/submit" method="post">
+      <label for="name">Name:</label>
+      <input type="text" id="name" name="name" required><br>
+
+      <label for="contact">Contact:</label>
+      <input type="text" id="contact" name="contact" required><br>
+
+      <input type="submit" value="Submit">
+    </form>
+
+    <button onclick="fetchDetails()">Fetch Details</button>
+    <div id="details"></div>
+  </div>
+
+  <script>
+    async function fetchDetails() {
+      const response = await fetch('/details');
+      const data = await response.json();
+      const detailsElement = document.getElementById('details');
+      detailsElement.innerHTML = '<h2>Fetched Details</h2>';
+      data.forEach(item => {
+        detailsElement.innerHTML += `<p>Name: ${item.name}, Contact: ${item.contact}</p>`;
+      });
+    }
+  </script>
+</body>
+</html>

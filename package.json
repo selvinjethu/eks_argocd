@@ -1,0 +1,14 @@
+{
+  "name": "node-postgres-form",
+  "version": "1.0.0",
+  "description": "Node.js application with Docker and PostgreSQL",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "body-parser": "^1.19.0",
+    "pg": "^8.5.1"
+  }
+}
