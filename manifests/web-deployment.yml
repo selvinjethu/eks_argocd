@@ -17,6 +17,6 @@ spec:
     spec:
       containers:
       - name: web
-        image: 185124489034.dkr.ecr.us-east-1.amazonaws.com/app:latest
+        image: 185124489034.dkr.ecr.us-east-1.amazonaws.com/app:fb404f2
         ports:
         - containerPort: 3000
