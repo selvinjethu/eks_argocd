@@ -53,6 +53,8 @@ jobs:
       run: |
         git config --local user.email "selvinjethu@gmail.com"
         git config --local user.name "GitHub Action"
-        git add ./manifests/web-deployment.yml
+        git checkout main
+        git merge --ff-only
+        git add eks_argocd/manifests/web-deployment.yml
         git commit -m "Update image tag in Deployment YAML"
-        git push
+        git push origin main
